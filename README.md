@@ -57,11 +57,13 @@ ionic serve
 
 ## 📱 Capturas de Pantalla
 
-### Página de Inicio
-![Home Page](ruta_imagen_home.png)
+### Pagina de Noticias
+![Pagina Noticias](https://github.com/user-attachments/assets/c9141acc-d857-4545-9fbb-442efbe07ae7)
 
-### Lista de Posts
-![Posts List](ruta_imagen_posts.png)
+
+### Api Consumida
+![API CONSUMIDA](https://github.com/user-attachments/assets/ae595939-dec7-4dae-9791-a469cd67a99f)
+
 
 ## 🛠️ Construido Con
 
