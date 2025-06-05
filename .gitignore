@@ -78,3 +78,7 @@ supabase.client.ts
 src/app/supabase.client.ts
 
 .vscode
+
+.android
+android
+www
