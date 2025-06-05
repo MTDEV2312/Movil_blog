@@ -1,0 +1,21 @@
+ion-card {
+  margin: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  
+  ion-img {
+    max-height: 200px;
+    object-fit: cover;
+  }
+}
+
+ion-card-content {
+  p {
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+}
+
+.ion-padding {
+  padding: 16px;
+}
