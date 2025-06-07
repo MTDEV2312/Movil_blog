@@ -17,5 +17,9 @@ export const routes: Routes = [
   {
     path: 'api',
     loadComponent: () => import('./pages/api/api.page').then( m => m.APIPage)
+  },  {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile/profile.page').then( m => m.ProfilePage)
   },
+
 ];

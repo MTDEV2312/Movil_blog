@@ -15,8 +15,11 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonModal
+  IonModal,
+  IonIcon 
 } from '@ionic/angular/standalone';
+import { NewsService } from '../../services/news.service';
+
 
 @Component({
   selector: 'app-api',
@@ -38,7 +41,8 @@ import {
     IonGrid,
     IonRow,
     IonCol,
-    IonModal
+    IonModal,
+    IonIcon
   ]
 })
 export class APIPage implements OnInit {
@@ -46,7 +50,10 @@ export class APIPage implements OnInit {
   selectedPokemon: any = null;
   isModalOpen = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private newsService: NewsService
+  ) { }
 
   ngOnInit() {
     this.loadInitialPokemons();
@@ -88,5 +95,34 @@ export class APIPage implements OnInit {
       return pokemon.details.sprites.front_default;
     }
     return 'assets/icon/favicon.png';
+  }
+
+  async guardarComoPokemon(pokemon: any) {
+    try {
+      const titulo = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+      const contenido = this.generarContenidoPokemon(pokemon);
+      const imagenUrl = pokemon.details.sprites.front_default;
+
+      await this.newsService.createPokemonNews(titulo, contenido, imagenUrl);
+      this.closeModal();
+    } catch (error) {
+      console.error('Error al guardar pokemon como noticia:', error);
+    }
+  }
+
+  private generarContenidoPokemon(pokemon: any): string {
+    const tipos = pokemon.details.types
+      .map((t: any) => t.type.name)
+      .join(', ');
+
+    const stats = pokemon.details.stats
+      .map((s: any) => `${s.stat.name}: ${s.base_stat}`)
+      .join('\n');
+
+    return `Pokémon: ${pokemon.name.toUpperCase()}
+Tipos: ${tipos}
+
+Estadísticas:
+${stats}`;
   }
 }

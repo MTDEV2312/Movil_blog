@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Perfil de Usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <ion-card>
+      <ion-card-content>
+        <div class="image-container">
+          <img [src]="imagePreview || 'assets/default-avatar.png'" alt="Foto de perfil" class="profile-image">
+          <ion-button size="small" (click)="fileInput.click()">
+            Cambiar imagen
+          </ion-button>
+          <input
+            #fileInput
+            type="file"
+            hidden
+            accept="image/*"
+            (change)="onImageSelected($event)"
+          >
+        </div>
+
+        <ion-item>
+          <ion-label position="stacked">Nombre completo</ion-label>
+          <ion-input formControlName="nombre" type="text" placeholder="Ingresa tu nombre"></ion-input>
+        </ion-item>
+
+        <div class="ion-padding button-container">
+          <ion-button expand="block" type="submit" [disabled]="!profileForm.valid || loading">
+            {{ loading ? 'Guardando...' : 'Guardar Perfil' }}
+          </ion-button>
+          
+          <ion-button 
+            *ngIf="hasExistingProfile"
+            expand="block" 
+            fill="outline" 
+            (click)="continueWithoutUpdate()"
+            [disabled]="loading">
+            Continuar sin actualizar
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ion-content>

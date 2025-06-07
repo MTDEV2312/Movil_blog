@@ -23,11 +23,27 @@
   <ion-list>
     <ion-card *ngFor="let noticia of noticias">
       <ion-card-header>
-        <ion-card-title>{{ noticia.titulo }}</ion-card-title>
-        <ion-card-subtitle>
-          Por: {{noticia.user_id }}
-        </ion-card-subtitle>
-        <ion-note>{{ noticia.fecha | date:'medium' }}</ion-note>
+        <div class="profile-header">
+          <ion-avatar>
+            <ion-img [src]="noticia.user_profiles?.imagen_url || 'assets/default-avatar.png'"></ion-img>
+          </ion-avatar>
+          <div class="header-content">
+            <ion-card-title>{{ noticia.titulo }}</ion-card-title>
+            <ion-card-subtitle>
+              Por: {{ noticia.user_profiles?.nombre || 'Usuario Anónimo' }}
+            </ion-card-subtitle>
+            <ion-note>{{ noticia.fecha | date:'medium' }}</ion-note>
+          </div>
+        </div>
+        <ion-buttons slot="end">
+          <ng-container *ngIf="canEdit(noticia)">
+            <ion-button 
+              fill="clear" 
+              (click)="abrirModalEdicion(noticia)">
+              <ion-icon name="create-outline"></ion-icon>
+            </ion-button>
+          </ng-container>
+        </ion-buttons>
       </ion-card-header>
       
       <ion-card-content>
@@ -68,6 +84,49 @@
         <div class="ion-padding">
           <ion-button expand="block" (click)="crearNoticia()" [disabled]="!newNoticia.titulo || !newNoticia.contenido">
             Crear Noticia
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal para editar noticia -->
+  <ion-modal [isOpen]="isEditModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Editar Noticia</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModalEdicion()">
+              Cancelar
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input 
+            label="Título" 
+            labelPlacement="floating" 
+            [(ngModel)]="editingNoticia!.titulo" 
+            required>
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-textarea 
+            label="Contenido" 
+            labelPlacement="floating" 
+            [(ngModel)]="editingNoticia!.contenido" 
+            rows="6"
+            required>
+          </ion-textarea>
+        </ion-item>
+        <div class="ion-padding">
+          <ion-button 
+            expand="block" 
+            (click)="actualizarNoticia()" 
+            [disabled]="!editingNoticia?.titulo || !editingNoticia?.contenido">
+            Actualizar Noticia
           </ion-button>
         </div>
       </ion-content>

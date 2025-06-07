@@ -26,10 +26,15 @@
         <ion-toolbar>
           <ion-title>{{selectedPokemon?.name | titlecase}}</ion-title>
           <ion-buttons slot="end">
+            <ion-button (click)="guardarComoPokemon(selectedPokemon)">
+              <ion-icon name="add-outline"></ion-icon>
+              Guardar como noticia
+            </ion-button>
             <ion-button (click)="closeModal()">Cerrar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
+
       <ion-content class="ion-padding">
         @if (selectedPokemon?.details) {
           <div class="ion-text-center">
