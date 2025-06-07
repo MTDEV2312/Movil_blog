@@ -32,24 +32,21 @@
             <ion-card-subtitle>
               Por: {{ noticia.user_profiles?.nombre || 'Usuario Anónimo' }}
             </ion-card-subtitle>
-            <ion-note>{{ noticia.fecha | date:'medium' }}</ion-note>
           </div>
-        </div>
-        <ion-buttons slot="end">
-          <ng-container *ngIf="canEdit(noticia)">
-            <ion-button 
-              fill="clear" 
-              (click)="abrirModalEdicion(noticia)">
-              <ion-icon name="create-outline"></ion-icon>
+          <!-- Cambiamos el icono por un botón con texto -->
+          <ion-buttons *ngIf="canEdit(noticia)" slot="end">
+            <ion-button (click)="abrirModalEdicion(noticia)" fill="clear">
+              Editar
             </ion-button>
-          </ng-container>
-        </ion-buttons>
+          </ion-buttons>
+        </div>
       </ion-card-header>
       
       <ion-card-content>
         <p>{{ noticia.contenido }}</p>
+        <!-- Cambiamos el texto del botón de ubicación -->
         <ion-button fill="clear" [href]="noticia.ubicacion_url" target="_blank">
-          Ver ubicación
+          Abrir ubicación
         </ion-button>
       </ion-card-content>
 
@@ -97,9 +94,7 @@
         <ion-toolbar>
           <ion-title>Editar Noticia</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="cerrarModalEdicion()">
-              Cancelar
-            </ion-button>
+            <ion-button (click)="cerrarModalEdicion()">Cerrar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>

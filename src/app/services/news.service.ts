@@ -32,11 +32,7 @@ export class NewsService {
 
       if (error) throw error;
 
-      // Asegurarnos que el user_id es string
-      return (data || []).map(noticia => ({
-        ...noticia,
-        user_id: noticia.user_id.toString()
-      }));
+      return data || [];
 
     } catch (error) {
       console.error('Error al obtener noticias:', error);

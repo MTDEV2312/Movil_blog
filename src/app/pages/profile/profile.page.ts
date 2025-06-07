@@ -11,7 +11,6 @@ import {
   IonLabel,
   IonInput,
   IonButton,
-  IonImg,
   IonCard,
   IonCardContent
 } from '@ionic/angular/standalone';
@@ -35,7 +34,7 @@ import { UserProfile } from '../../interfaces/profile.interface';
     IonLabel,
     IonInput,
     IonButton,
-    IonImg,
+    // Removemos IonImg
     IonCard,
     IonCardContent
   ]

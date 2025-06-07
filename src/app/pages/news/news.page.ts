@@ -5,9 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NewsService } from '../../services/news.service';
 import type News from '../../interfaces/news.interface';
-import { addOutline, cloudOutline, createOutline } from 'ionicons/icons';
-import { addIcons } from 'ionicons';
 import { getAuth } from 'firebase/auth'; // Agregar este import
+import { addIcons } from 'ionicons';
+import { cloudOutline, addOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-news',
@@ -23,6 +23,7 @@ import { getAuth } from 'firebase/auth'; // Agregar este import
 })
 export class NewsPage implements OnInit {
   noticias: News[] = [];
+  editableNoticias: Set<string> = new Set();
   isModalOpen = false;
   newNoticia = {
     titulo: '',
@@ -33,17 +34,30 @@ export class NewsPage implements OnInit {
   private auth = getAuth(); // Agregar esta propiedad
 
   constructor(private newsService: NewsService) {
-    addIcons({ cloudOutline, addOutline, createOutline });
-    console.log('Íconos registrados');
+    // Registrar los iconos
+    addIcons({
+      'cloud-outline': cloudOutline,
+      'add-outline': addOutline
+    });
   }
 
-  ngOnInit() {
-    this.cargarNoticias();
+  async ngOnInit() {
+    await this.cargarNoticias();
   }
 
   async cargarNoticias() {
     try {
+      const user = this.auth.currentUser;
       this.noticias = await this.newsService.getNews();
+      
+      // Guardamos los IDs de las noticias editables
+      if (user) {
+        this.editableNoticias = new Set(
+          this.noticias
+            .filter(noticia => noticia.user_id === user.uid)
+            .map(noticia => noticia.id.toString())
+        );
+      }
     } catch (error) {
       console.error('Error al cargar noticias:', error);
     }
@@ -69,18 +83,7 @@ export class NewsPage implements OnInit {
   }
 
   canEdit(noticia: News): boolean {
-    const user = this.auth.currentUser;
-    const userIdFromAuth = user?.uid?.toString() || '';
-    const userIdFromNews = noticia.user_id?.toString() || '';
-    
-    console.log('Comparando IDs:', {
-      authId: userIdFromAuth,
-      newsId: userIdFromNews,
-      match: userIdFromAuth === userIdFromNews,
-      noticia: noticia
-    });
-    
-    return userIdFromAuth === userIdFromNews;
+    return this.editableNoticias.has(noticia.id.toString());
   }
 
   abrirModalEdicion(noticia: News) {

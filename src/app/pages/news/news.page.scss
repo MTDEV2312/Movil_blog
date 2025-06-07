@@ -33,31 +33,27 @@ ion-card-header {
 .profile-header {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
-  padding: 0.5rem;
-  padding-right: 40px; // Dar espacio para el botón de edición
+  position: relative;
+  padding-right: 60px; // Aumentamos el padding para el botón de texto
 
   ion-avatar {
     width: 48px;
     height: 48px;
-    margin-right: 8px;
+    margin-right: 12px;
   }
 
   .header-content {
     flex: 1;
-    
-    ion-card-title {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-    
-    ion-card-subtitle {
-      margin: 4px 0;
-      font-size: 0.9rem;
-    }
-    
-    ion-note {
-      font-size: 0.8rem;
-    }
   }
+
+  ion-buttons {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+ion-button {
+  --color: var(--ion-color-warning);
+  font-weight: 500;
 }
